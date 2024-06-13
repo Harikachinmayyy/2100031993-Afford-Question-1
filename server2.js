@@ -5,10 +5,10 @@ const { v4: uuidv4 } = require('uuid');
 const app = express();
 const port = 3000;
 
-// Sample cache for storing product data (should use a proper caching mechanism)
+
 let productCache = {};
 
-// Fetch products from the provided API
+
 async function fetchProductsFromApis(company, categoryname, n, minPrice, maxPrice) {
     const apiUrl = `http://20.244.56.144/products/companies/${company}/categories/${categoryname}/products?top=${n}&minPrice=${minPrice}&maxPrice=${maxPrice}`;
     const response = await axios.get(apiUrl);
@@ -19,7 +19,7 @@ async function fetchProductsFromApis(company, categoryname, n, minPrice, maxPric
 
     const products = response.data;
 
-    // Generate unique IDs and cache the results
+
     products.forEach(product => {
         const productId = uuidv4();
         product.id = productId;
@@ -29,7 +29,7 @@ async function fetchProductsFromApis(company, categoryname, n, minPrice, maxPric
     return products;
 }
 
-// Fetch product details from the provided API
+
 async function fetchProductDetailsFromApis(company, categoryname, productid) {
     const apiUrl = `http://20.244.56.144/products/companies/${company}/categories/${categoryname}/products/${productid}`;
     const response = await axios.get(apiUrl);
@@ -41,7 +41,7 @@ async function fetchProductDetailsFromApis(company, categoryname, productid) {
     return response.data;
 }
 
-// Endpoint to retrieve top products within a category for a specific company
+
 app.get('/categories/:categoryname/products', async (req, res) => {
     const { categoryname } = req.params;
     const { company, n = 10, minPrice = 0, maxPrice = 10000 } = req.query;
@@ -58,7 +58,7 @@ app.get('/categories/:categoryname/products', async (req, res) => {
     }
 });
 
-// Endpoint to retrieve details of a specific product
+
 app.get('/categories/:categoryname/products/:productid', async (req, res) => {
     const { categoryname, productid } = req.params;
     const { company } = req.query;
